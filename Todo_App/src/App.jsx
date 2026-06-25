@@ -3,13 +3,15 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
+import TaskModal from "./components/TaskModal";
 import Todo from "./pages/Todo";
 import Completed from "./pages/Completed";
-import CreatTaskFrom from "./pages/CreatTaskFrom";
 import { useTasks } from "./hooks/useTasks";
 
 function App() {
   const [activeTab, setActiveTab] = useState("todo");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     activeTasks,
     completedTasks,
@@ -21,20 +23,24 @@ function App() {
     toggleComplete,
   } = useTasks();
 
-  const handleFormSubmit = (idOrData, maybeData) => {
-    if (typeof idOrData === "string") {
-      // update
-      updateTask(idOrData, maybeData);
-    } else {
-      // add
-      addTask(idOrData);
-    }
-    setActiveTab("todo");
+  // Modal Handlers
+  const openModal = (task = null) => {
+    setEditingTask(task);
+    setIsModalOpen(true);
   };
 
-  const handleEdit = (task) => {
-    setEditingTask(task);
-    setActiveTab("create");
+  const closeModal = () => {
+    setEditingTask(null);
+    setIsModalOpen(false);
+  };
+
+  const handleFormSubmit = (idOrData, maybeData) => {
+    if (typeof idOrData === "string") {
+      updateTask(idOrData, maybeData);
+    } else {
+      addTask(idOrData);
+    }
+    closeModal();
   };
 
   return (
@@ -46,6 +52,7 @@ function App() {
           active: activeTasks.length,
           completed: completedTasks.length,
         }}
+        onNewTask={() => openModal()}
       />
 
       <main className="max-w-5xl mx-auto px-6 py-8">
@@ -54,7 +61,7 @@ function App() {
             tasks={activeTasks}
             onToggle={toggleComplete}
             onDelete={deleteTask}
-            onEdit={handleEdit}
+            onEdit={openModal} // Opens modal with task data
           />
         )}
 
@@ -65,18 +72,15 @@ function App() {
             onDelete={deleteTask}
           />
         )}
-
-        {activeTab === "create" && (
-          <CreatTaskFrom
-            onSubmit={handleFormSubmit}
-            editingTask={editingTask}
-            onCancelEdit={() => {
-              setEditingTask(null);
-              setActiveTab("todo");
-            }}
-          />
-        )}
       </main>
+
+      {/* The Modal Component */}
+      <TaskModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onSubmit={handleFormSubmit}
+        editingTask={editingTask}
+      />
 
       <ToastContainer
         position="top-right"
