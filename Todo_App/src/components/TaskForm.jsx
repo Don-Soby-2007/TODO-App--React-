@@ -2,19 +2,18 @@ import React, { useState, useEffect } from "react";
 
 const TaskForm = ({ onSubmit, editingTask, onCancel }) => {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
 
   useEffect(() => {
     if (editingTask) {
       setTitle(editingTask.title);
-      setDescription(editingTask.description || "");
+
       setDeadline(
         editingTask.deadline ? editingTask.deadline.slice(0, 16) : "",
       );
     } else {
       setTitle("");
-      setDescription("");
+
       setDeadline("");
     }
   }, [editingTask]);
@@ -25,7 +24,7 @@ const TaskForm = ({ onSubmit, editingTask, onCancel }) => {
 
     const taskData = {
       title: title.trim(),
-      description: description.trim(),
+
       deadline: deadline ? new Date(deadline).toISOString() : null,
     };
 
@@ -50,19 +49,6 @@ const TaskForm = ({ onSubmit, editingTask, onCancel }) => {
           className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none"
           required
           autoFocus
-        />
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">
-          Description
-        </label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Add details..."
-          rows="3"
-          className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none resize-none"
         />
       </div>
 
