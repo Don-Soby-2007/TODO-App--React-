@@ -3,7 +3,7 @@ import { formatDate, isDeadlinePassed } from "../utils/dateUtils";
 
 const TaskCard = ({ task, onToggle, onDelete, onEdit }) => {
   const deadlinePassed = isDeadlinePassed(task.deadline);
-  const isExpired = task.completed && task.expired;
+  const isExpired = task.expired;
 
   return (
     <div

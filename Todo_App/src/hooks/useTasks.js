@@ -30,7 +30,7 @@ export const useTasks = () => {
             toast.error(`⏰ Deadline passed for: "${task.title}"`, {
               toastId: task.id,
             });
-            return { ...task, completed: true, expired: true };
+            return { ...task, completed: false, expired: true };
           }
           return task;
         })
