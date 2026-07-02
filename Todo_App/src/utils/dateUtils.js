@@ -13,5 +13,5 @@ export const formatDate = (dateString) => {
 export const isDeadlinePassed = (deadline) => {
   if (!deadline) return false;
   let difference = Date.now() - new Date(deadline).getTime()
-  return difference <= 35 *1000 ;
+  return difference >= 35 *1000 ;
 };

@@ -29,6 +29,7 @@ const TaskForm = ({ onSubmit, editingTask, onCancel }) => {
     };
 
     if (editingTask) {
+      if (editingTask.deadline < taskData.deadline) taskData.expired = false;
       onSubmit(editingTask.id, taskData);
     } else {
       onSubmit(taskData);

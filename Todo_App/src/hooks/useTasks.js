@@ -26,7 +26,7 @@ export const useTasks = () => {
     const checkDeadlines = () => {
       setTasks((prev) =>
         prev.map((task) => {
-          if (!task.completed && task.deadline && isDeadlinePassed(task.deadline)) {
+          if (!task.completed && task.deadline && isDeadlinePassed(task.deadline) && !task.expired) {
             toast.error(`⏰ Deadline passed for: "${task.title}"`, {
               toastId: task.id,
             });
