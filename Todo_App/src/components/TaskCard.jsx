@@ -1,5 +1,7 @@
 import React from "react";
 import { formatDate, isDeadlinePassed } from "../utils/dateUtils";
+import Deletebtn from "./Deletebtn";
+import Editbtn from "./Editbtn";
 
 const TaskCard = ({ task, onToggle, onDelete, onEdit }) => {
   const deadlinePassed = isDeadlinePassed(task.deadline);
@@ -60,22 +62,8 @@ const TaskCard = ({ task, onToggle, onDelete, onEdit }) => {
         </div>
 
         <div className="flex gap-2">
-          {!task.completed && (
-            <button
-              onClick={() => onEdit(task)}
-              className="p-2 text-indigo-600 hover:bg-indigo-50 rounded-lg transition"
-              title="Edit"
-            >
-              ✏️
-            </button>
-          )}
-          <button
-            onClick={() => onDelete(task.id)}
-            className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
-            title="Delete"
-          >
-            🗑️
-          </button>
+          {!task.completed && <Editbtn onClick={() => onEdit(task)} />}
+          <Deletebtn onClick={() => onDelete(task.id)} />
         </div>
       </div>
     </div>
